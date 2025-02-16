@@ -3,6 +3,8 @@ package academy.javapro;
 import java.util.*;
 import java.util.regex.*;
 
+//First Look Through and will be completed Tomorrow
+
 public class Lexer {
     private static final Pattern[] PATTERNS = {
             Pattern.compile("\\s+"),                                       // whitespace
