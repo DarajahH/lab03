@@ -3,8 +3,6 @@ package academy.javapro;
 import java.util.*;
 import java.util.regex.*;
 
-//First Look Through and will be completed Tomorrow
-
 public class Lexer {
     private static final Pattern[] PATTERNS = {
             Pattern.compile("\\s+"),                                       // whitespace
@@ -38,6 +36,13 @@ public class Lexer {
      */
     public Lexer(String input) {
         // Your code here
+    	this.input = input;
+    	
+    	 this.tokens = new ArrayList<String[]>();
+    	
+    	 this.position = 0;
+    	
+    	
     }
 
     /**
@@ -56,6 +61,34 @@ public class Lexer {
      */
     public void tokenize() {
         // Your code here
+    	
+    	while(position < input.length()) {
+    		
+    		String RInt = input.substring(position);
+    		boolean matched = false;
+    		
+    		 for (int i = 0; i < PATTERNS.length; i++) {
+                 Matcher matcher = PATTERNS[i].matcher(RInt);
+
+                 if (matcher.lookingAt()) {
+                     String matchedText = matcher.group();
+
+                    
+                     if (!TYPES[i].equals("WHITESPACE")) {
+                         tokens.add(new String[]{TYPES[i], matchedText});
+                     }
+
+                     position += matchedText.length();
+                     matched = true;
+                       
+                 }
+             }
+
+             if (!matched) {
+                 throw new RuntimeException("Invalid input at position " + position + ": " + input.charAt(position));
+             }
+    	}
+    	
     }
 
     /**
@@ -69,10 +102,11 @@ public class Lexer {
      */
     public List<String[]> getTokens() {
         // Your code here
-        return null;
+        return tokens;
     }
 
     public static void main(String[] args) {
+    	System.out.println("Hi");
         String code = "int x = 10; if (x > 5) { x = x + 1; }";
         Lexer lexer = new Lexer(code);
         lexer.tokenize();
